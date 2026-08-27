@@ -10,6 +10,29 @@ def movie_action_buttons(movie_code: str):
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
+def subscription_gate_buttons(missing_channels):
+    buttons = []
+    for ch in missing_channels:
+        if ch["invite_link"]:
+            link = ch["invite_link"]
+        elif ch["username"]:
+            link = f"https://t.me/{ch['username']}"
+        else:
+            link = None
+        title = ch["title"] or "Kanal"
+        if link:
+            buttons.append([InlineKeyboardButton(text=f"➕ {title}", url=link)])
+    buttons.append([InlineKeyboardButton(text="✅ Tekshirish", callback_data="check_subscription")])
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+def forced_channels_manage_list(channels):
+    buttons = [
+        [InlineKeyboardButton(text=f"🗑 {c['title'] or c['chat_id']}", callback_data=f"delch_{c['chat_id']}")]
+        for c in channels
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
 def vip_purchase_buttons():
     buttons = [
         [InlineKeyboardButton(

@@ -43,3 +43,6 @@ def get_admin_menu() -> ReplyKeyboardMarkup:
         [KeyboardButton(text="⬅️ Bosh menyu")],
     ]
     return ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
+
+[KeyboardButton(text="📋 Kinolar ro'yxati")],
+[KeyboardButton(text="📢 Majburiy Obuna")],

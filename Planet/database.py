@@ -503,3 +503,27 @@ async def delete_custom_button(button_text: str):
     async with aiosqlite.connect(DB_NAME) as db:
         await db.execute("DELETE FROM custom_buttons WHERE button_text=?", (button_text,))
         await db.commit()
+
+# ============================================================
+# MAJBURIY OBUNA (FORCED CHANNELS)
+# ============================================================
+async def add_forced_channel(chat_id, title: str, username: str, invite_link: str, added_by: int):
+    async with aiosqlite.connect(DB_NAME) as db:
+        await db.execute('''
+            INSERT OR REPLACE INTO forced_channels (chat_id, title, username, invite_link, added_by, added_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (str(chat_id), title, username, invite_link, added_by, _now()))
+        await db.commit()
+
+
+async def get_forced_channels():
+    async with aiosqlite.connect(DB_NAME) as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute("SELECT * FROM forced_channels ORDER BY id") as cur:
+            return await cur.fetchall()
+
+
+async def remove_forced_channel(chat_id):
+    async with aiosqlite.connect(DB_NAME) as db:
+        await db.execute("DELETE FROM forced_channels WHERE chat_id=?", (str(chat_id),))
+        await db.commit()

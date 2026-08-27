@@ -40,3 +40,6 @@ class EditMovieVideo(StatesGroup):
 
 class RedeemPromo(StatesGroup):
     code = State()
+
+class ForcedChannel(StatesGroup):
+    add = State()
